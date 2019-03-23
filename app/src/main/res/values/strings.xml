@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">MoneyManager</string>
+
+
+    //login
+    <string name="login_email">Email</string>
+    <string name="login_pass">Password</string>
+    <string name="login_confirm_pass">Confirm Password</string>
+    <string name="login_sign_in">Sign In</string>
+    <string name="login_sign_up">Sign Up</string>
+    <string name="login_reset_pass">Reset my password</string>
+    <string name="login_sign_in_google">Sign In with Google</string>
+    <string name="login_forgot_pass">He olvidado mi contraseña</string>
+    <string name="login_create_account">Create account</string>
+    <string name="login_back">Go back to Login</string>
+
+
+
+
+
+
+</resources>
