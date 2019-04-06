@@ -19,7 +19,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         buttonShowLicenses.setOnClickListener{
-            startActivity(Intent(this, showLicensesActivity::class.java))
+            startActivity(Intent(this, ShowLicensesActivity::class.java))
         }
 
         loginButton.setOnClickListener{
