@@ -3,20 +3,17 @@
 
 
     //login
-    <string name="login_email">Email</string>
-    <string name="login_pass">Password</string>
-    <string name="login_confirm_pass">Confirm Password</string>
-    <string name="login_sign_in">Sign In</string>
-    <string name="login_sign_up">Sign Up</string>
-    <string name="login_reset_pass">Reset my password</string>
-    <string name="login_sign_in_google">Sign In with Google</string>
-    <string name="login_forgot_pass">He olvidado mi contraseña</string>
-    <string name="login_create_account">Create account</string>
-    <string name="login_back">Go back to Login</string>
-
-
-
-
+    <string name="login_correo">Correo electrónico</string>
+    <string name="login_pass">Contraseña</string>
+    <string name="login_confirmar_pass">Confirmar Contraseña</string>
+    <string name="login_inicio">Iniciar Sesión</string>
+    <string name="login_registro">Registrarse</string>
+    <string name="login_restablecer_pass">Restablecer contraseña</string>
+    <string name="login_inicio_google">Iniciar Sesión con Google</string>
+    <string name="login_olvido_pass">He olvidado mi contraseña</string>
+    <string name="login_crear_cuenta">Crear Cuenta</string>
+    <string name="login_volver">Volver a Inicio de Sesión</string>
+    <string name="showLicensesButton">Licencias</string>
 
 
 </resources>
