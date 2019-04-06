@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "106680115794-noocsus1n68g6cra9s1qpeo46raufe4d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.calleja.jesus.moneymanager",
+            "certificate_hash": "ef6fc98dec4ad7eab6b04f6026f47cb87b09da7f"
+          }
+        },
+        {
           "client_id": "106680115794-3rgs5k1997h5q34r393tmir2j4r8evns.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106680115794-3rgs5k1997h5q34r393tmir2j4r8evns.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
