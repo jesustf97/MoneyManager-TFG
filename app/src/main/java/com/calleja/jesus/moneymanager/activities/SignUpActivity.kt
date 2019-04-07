@@ -4,9 +4,10 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.calleja.jesus.moneymanager.R
+import com.calleja.jesus.moneymanager.*
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_sign_up.*
+
 
 
 class SignUpActivity : AppCompatActivity() {
@@ -31,12 +32,30 @@ class SignUpActivity : AppCompatActivity() {
                 create(email,password)
             }
             else{
-                Toast.makeText(this, "Faltan campos de datos por rellenar o las contraseñas no coinciden",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    "Faltan campos de datos por rellenar o las contraseñas no coinciden",Toast.LENGTH_SHORT).show()
             }
 
         }
 
+        editTextEmailSignUp.validate {
+        editTextEmailSignUp.error = if (validateEmail(it)) null else
+            "El email no es válido"
+        }
+
+        editTextPasswordSignUp.validate {
+            editTextPasswordSignUp.error = if (validatePass(it)) null else
+                "La contraseña debe contener al menos 6 carácteres con al menos una minúscula, una mayúscula y un número"
+        }
+
+        editTextConfirmPasswordSignUp.validate {
+            editTextConfirmPasswordSignUp.error =
+                if (validateConfirmPass(editTextPasswordSignUp.text.toString(),it)) null else
+                    "Las contraseñas no coinciden"
+        }
     }
+
+
 
     private fun create(email: String, password: String) {
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -56,10 +75,13 @@ class SignUpActivity : AppCompatActivity() {
     private fun verify(email: String, password: String): Boolean {
         return !email.isNullOrEmpty() &&
                 !password.isNullOrEmpty() &&
-                (password.compareTo(editTextConfirmPasswordSignUp.toString())) == 0
+                (password.compareTo(editTextConfirmPasswordSignUp.text.toString())) == 0
 
 
     }
+
+
+
 
 
 
