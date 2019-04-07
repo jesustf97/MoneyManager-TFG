@@ -25,11 +25,11 @@ class SignUpActivity : AppCompatActivity() {
 
         buttonRegistro.setOnClickListener{
             val email = editTextEmailSignUp.text.toString()
-            val password = editTextPasswordSignUp.text.toString()
+            val pass = editTextPasswordSignUp.text.toString()
+            val confirmPass = editTextConfirmPasswordSignUp.text.toString()
 
-            if(verify(email, password)){
-
-                create(email,password)
+            if(validateEmail(email) && validatePass(pass) && validateConfirmPass(pass,confirmPass)) {
+                createUserWithEmail(email,pass)
             }
             else{
                 Toast.makeText(this,
@@ -57,11 +57,14 @@ class SignUpActivity : AppCompatActivity() {
 
 
 
-    private fun create(email: String, password: String) {
+    private fun createUserWithEmail(email: String, password: String) {
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(this, "Se ha enviado email de confirmación",Toast.LENGTH_SHORT).show()
+                    mAuth.currentUser!!.sendEmailVerification().addOnCompleteListener(this) {
+                        Toast.makeText(this, "Se ha enviado email de confirmación",Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, LoginActivity::class.java))
+                    }
 
                 } else {
                     Toast.makeText(this, "Ha ocurrido un error inesperado",Toast.LENGTH_SHORT).show()
@@ -69,20 +72,4 @@ class SignUpActivity : AppCompatActivity() {
             }
 
     }
-
-
-
-    private fun verify(email: String, password: String): Boolean {
-        return !email.isNullOrEmpty() &&
-                !password.isNullOrEmpty() &&
-                (password.compareTo(editTextConfirmPasswordSignUp.text.toString())) == 0
-
-
-    }
-
-
-
-
-
-
 }

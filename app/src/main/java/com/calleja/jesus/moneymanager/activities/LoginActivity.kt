@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.calleja.jesus.moneymanager.R
+import com.calleja.jesus.moneymanager.validate
+import com.calleja.jesus.moneymanager.validateEmail
+import com.calleja.jesus.moneymanager.validatePass
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -24,9 +27,13 @@ class LoginActivity : AppCompatActivity() {
 
         loginButton.setOnClickListener{
             val email: String = editTextEmailLogin.text.toString()
-            val password: String = editTextPasswordLogin.text.toString()
-            if(verify(email, password)){
-                loginEmail(email,password)
+            val pass: String = editTextPasswordLogin.text.toString()
+            if(validateEmail(email) && validatePass(pass)) {
+                loginWithEmail(email,pass)
+            }
+            else{
+                Toast.makeText(this,
+                    "Faltan campos de datos por rellenar o las contraseñas no coinciden",Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -37,19 +44,29 @@ class LoginActivity : AppCompatActivity() {
         buttonSignUp.setOnClickListener{
             startActivity(Intent(this, SignUpActivity::class.java))
         }
-    }
 
-    private fun loginEmail(email: String, password: String) {
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-            if (task.isSuccessful) {
-                Toast.makeText(this, "El usuario ha iniciado sesión",Toast.LENGTH_SHORT).show()
-            } else{
-                Toast.makeText(this, "Ha ocurrido un error inesperado",Toast.LENGTH_SHORT).show()
-            }
+        editTextEmailLogin.validate {
+            editTextEmailLogin.error = if (validateEmail(it)) null else
+                "El email no es válido"
+        }
+
+        editTextPasswordLogin.validate {
+            editTextPasswordLogin.error = if (validatePass(it)) null else
+                "La contraseña debe contener al menos 6 carácteres con al menos una minúscula, una mayúscula y un número"
         }
     }
 
-    private fun verify(email: String, password: String): Boolean {
-        return !email.isNullOrEmpty() && !password.isNullOrEmpty()
+    private fun loginWithEmail(email: String, password: String) {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+            if (task.isSuccessful) {
+                if (mAuth.currentUser!!.isEmailVerified) {
+                    Toast.makeText(this, "El usuario ha iniciado sesión", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "El usuario aún no ha verificado su email", Toast.LENGTH_SHORT).show()
+                }
+            } else{
+                Toast.makeText(this, "Ha ocurrido un error inesperado", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
