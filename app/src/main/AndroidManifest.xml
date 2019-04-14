@@ -27,7 +27,7 @@
         <activity android:name=".activities.SignUpActivity"
                   android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".activities.ForgetPassActivity">
+        <activity android:name=".activities.ForgotPassActivity">
         </activity>
         <activity android:name=".activities.ShowLicensesActivity">
 
