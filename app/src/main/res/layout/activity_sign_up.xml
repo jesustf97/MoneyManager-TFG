@@ -86,13 +86,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/buttonGoBackLogin"
+                app:layout_constraintBottom_toTopOf="@+id/buttonGoBackLoginSignUp"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintVertical_bias="0.657"
                 app:layout_constraintTop_toBottomOf="@+id/editTextPasswordSignUp"/>
 
         <Button
-                android:id="@+id/buttonGoBackLogin"
+                android:id="@+id/buttonGoBackLoginSignUp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/login_button_xl_height"
                 android:text="@string/login_volver"
