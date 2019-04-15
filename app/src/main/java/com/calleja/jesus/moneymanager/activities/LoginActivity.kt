@@ -38,7 +38,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         textViewForgotPassword.setOnClickListener{
-            startActivity(Intent(this, ForgetPassActivity::class.java))
+            startActivity(Intent(this, ForgotPassActivity::class.java))
         }
 
         buttonSignUp.setOnClickListener{

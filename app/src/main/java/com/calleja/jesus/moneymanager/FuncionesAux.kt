@@ -8,7 +8,7 @@ import android.widget.EditText
 import android.widget.Toast
 import java.util.regex.Pattern
 
-//fun Activity.toast(mensaje: CharSequence, duracion: Int = Toast.LENGTH_SHORT) = Toast.makeText(this, mensaje, duracion).show()
+fun Activity.toast(mensaje: CharSequence, duracion: Int = Toast.LENGTH_SHORT) = Toast.makeText(this, mensaje, duracion).show()
 //fun Activity.toast(resourceId: Int, duracion: Int = Toast.LENGTH_SHORT) = Toast.makeText(this, resourceId, duracion).show()
 
 

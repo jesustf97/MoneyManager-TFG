@@ -19,7 +19,7 @@
 
             <EditText
                     android:orientation="vertical"
-                    android:id="@+id/editTextEmail"
+                    android:id="@+id/editTextEmailForgotPass"
                     android:layout_width="match_parent"
                     android:layout_height="49dp"
                     android:layout_marginEnd="32dp"
@@ -36,10 +36,10 @@
                     android:layout_marginTop="120dp"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/buttonVolverLogin"
+                    app:layout_constraintBottom_toTopOf="@+id/buttonGoBackLoginForgotPass"
                     app:layout_constraintVertical_bias="0.006"/>
 
-                <Button android:id="@+id/buttonRestablecerPass"
+                <Button android:id="@+id/buttonForgotPass"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/login_button_height"
                         android:text="@string/login_restablecer_pass"
@@ -52,13 +52,13 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginBottom="8dp"
-                        app:layout_constraintBottom_toTopOf="@+id/buttonVolverLogin"
+                        app:layout_constraintBottom_toTopOf="@+id/buttonGoBackLoginForgotPass"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintVertical_bias="0.153"
-                        app:layout_constraintTop_toBottomOf="@+id/editTextEmail"/>
+                        app:layout_constraintTop_toBottomOf="@+id/editTextEmailForgotPass"/>
 
                 <Button
-                        android:id="@+id/buttonVolverLogin"
+                        android:id="@+id/buttonGoBackLoginForgotPass"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/login_button_xl_height"
                         android:text="@string/login_volver"
