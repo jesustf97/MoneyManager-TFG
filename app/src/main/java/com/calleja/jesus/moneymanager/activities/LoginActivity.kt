@@ -4,17 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import com.calleja.jesus.moneymanager.R
-import com.calleja.jesus.moneymanager.validate
-import com.calleja.jesus.moneymanager.validateEmail
-import com.calleja.jesus.moneymanager.validatePass
+import com.calleja.jesus.moneymanager.*
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
 
     private val mAuth by lazy { FirebaseAuth.getInstance() }
+    private val mGoogleApiClient: GoogleApiClient by lazy { getGoogleApiClient()}
+    private val RQ_GOOGLE_SIGN_IN = 85
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +50,12 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
 
+        buttonLoginGoogle.setOnClickListener{
+            val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
+            startActivityForResult(signInIntent, RQ_GOOGLE_SIGN_IN)
+
+        }
+
         editTextEmailLogin.validate {
             editTextEmailLogin.error = if (validateEmail(it)) null else
                 "El email no es válido"
@@ -54,6 +65,25 @@ class LoginActivity : AppCompatActivity() {
             editTextPasswordLogin.error = if (validatePass(it)) null else
                 "La contraseña debe contener al menos 6 carácteres con al menos una minúscula, una mayúscula y un número"
         }
+    }
+
+    private fun getGoogleApiClient(): GoogleApiClient {
+        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        return GoogleApiClient.Builder(this)
+            .enableAutoManage(this,this)
+            .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
+            .build()
+    }
+
+    private fun loginWithGoogle(googleAccount: GoogleSignInAccount){
+        val credentials = GoogleAuthProvider.getCredential(googleAccount.idToken, null)
+        mAuth.signInWithCredential(credentials).addOnCompleteListener(this){
+            toast("Sesión iniciada con Google")
+        }
+
     }
 
     private fun loginWithEmail(email: String, password: String) {
@@ -68,5 +98,21 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Ha ocurrido un error inesperado", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == RQ_GOOGLE_SIGN_IN){
+            val requestResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            if (requestResult.isSuccess){
+                val account = requestResult.signInAccount
+                loginWithGoogle(account!!)
+            }
+        }
+    }
+
+    override fun onConnectionFailed(p0: ConnectionResult) {
+        toast("Ha fallado la conexión")
     }
 }
