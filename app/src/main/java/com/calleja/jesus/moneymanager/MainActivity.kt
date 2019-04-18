@@ -1,16 +1,71 @@
 package com.calleja.jesus.moneymanager
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.view.PagerAdapter
+import android.support.v4.view.ViewPager
+import android.support.v7.widget.Toolbar
+import android.view.MenuItem
+import com.calleja.jesus.moneymanager.fragments.InfoFragment
+import com.calleja.jesus.moneymanager.fragments.RatesFragment
+import com.calleja.jesus.mylibrary.interfaces.ToolbarActivity
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
 
-    private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+class MainActivity : ToolbarActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+
+        private lateinit var adapter: com.calleja.jesus.moneymanager.adapters.PagerAdapter
+        private var prevBottomSelected: MenuItem? = null
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_main)
+
+            toolbarToLoad(toolbarView as Toolbar)
+            setUpViewPager(getPagerAdapter())
+            setUpBottomNavigationBar()
+        }
+
+        private fun getPagerAdapter(): PagerAdapter {
+            adapter = com.calleja.jesus.moneymanager.adapters.PagerAdapter(supportFragmentManager)
+            adapter.addFragment(InfoFragment())
+            adapter.addFragment(RatesFragment())
+            return adapter
+        }
+
+        private fun setUpViewPager(adapter: PagerAdapter) {
+            viewPager.adapter = adapter
+            viewPager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
+                override fun onPageScrollStateChanged(p0: Int) {}
+                override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {}
+                override fun onPageSelected(position: Int) {
+                    if(prevBottomSelected == null) {
+                        bottomNavigation.menu.getItem(0).isChecked = false
+                    } else {
+                        prevBottomSelected!!.isChecked = false
+                    }
+                    bottomNavigation.menu.getItem(position).isChecked = true
+                    prevBottomSelected = bottomNavigation.menu.getItem(position)
+                }
+            })
+        }
+
+        private fun setUpBottomNavigationBar() {
+            bottomNavigation.setOnNavigationItemSelectedListener { item ->
+                when(item.itemId) {
+                    R.id.bottom_nav_info  -> {
+                        viewPager.currentItem = 0
+                        true
+                    }
+                    R.id.bottom_nav_rates  -> {
+                        viewPager.currentItem = 1
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
 
     }
-}
