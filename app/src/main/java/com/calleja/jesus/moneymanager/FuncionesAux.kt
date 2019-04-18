@@ -1,6 +1,9 @@
 package com.calleja.jesus.moneymanager
 
 import android.app.Activity
+import android.content.Intent
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
@@ -11,6 +14,14 @@ import java.util.regex.Pattern
 fun Activity.toast(mensaje: CharSequence, duracion: Int = Toast.LENGTH_SHORT) = Toast.makeText(this, mensaje, duracion).show()
 //fun Activity.toast(resourceId: Int, duracion: Int = Toast.LENGTH_SHORT) = Toast.makeText(this, resourceId, duracion).show()
 
+fun ViewGroup.inflate(layoutId:Int) = LayoutInflater.from(context).inflate(layoutId, this, false)
+
+
+inline fun <reified T : Activity> Activity.goToActivity(noinline init: Intent.() -> Unit = {}) {
+    val intent = Intent(this, T::class.java)
+    intent.init()
+    startActivity(intent)
+}
 
 fun EditText.validate(funcion: (String) -> Unit) {
     this.addTextChangedListener(object: TextWatcher {

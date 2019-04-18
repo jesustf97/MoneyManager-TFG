@@ -3,7 +3,7 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.calleja.jesus.moneymanager">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
             android:allowBackup="true"
@@ -13,24 +13,28 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity
+                android:name=".MainFlow"
+                android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+                android:name=".MainActivity">
         </activity>
         <activity
                 android:name=".activities.LoginActivity"
                 android:windowSoftInputMode="adjustPan">
-                <intent-filter>
-                    <action android:name="android.intent.action.MAIN"/>
-
-                    <category android:name="android.intent.category.LAUNCHER"/>
-                </intent-filter>
         </activity>
-        <activity android:name=".activities.SignUpActivity"
-                  android:windowSoftInputMode="adjustPan">
+        <activity
+                android:name=".activities.SignUpActivity"
+                android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".activities.ForgotPassActivity">
         </activity>
         <activity android:name=".activities.ShowLicensesActivity">
-
         </activity>
     </application>
 
