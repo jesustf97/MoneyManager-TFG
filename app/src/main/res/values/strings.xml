@@ -13,7 +13,13 @@
     <string name="login_olvido_pass">He olvidado mi contraseña</string>
     <string name="login_crear_cuenta">Crear Cuenta</string>
     <string name="login_volver">Volver a Inicio de Sesión</string>
+
+    //Mostrar licencias
     <string name="showLicensesButton">Licencias</string>
+
+    //NavigationBar
+    <string name="navigation_bottom_info">Info</string>
+    <string name="navigation_bottom_rates">Rates</string>
 
 
 </resources>
