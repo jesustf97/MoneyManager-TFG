@@ -8,15 +8,11 @@ import android.view.MenuItem
 import com.calleja.jesus.moneymanager.fragments.InfoFragment
 import com.calleja.jesus.moneymanager.fragments.RatesFragment
 import com.calleja.jesus.mylibrary.interfaces.ToolbarActivity
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : ToolbarActivity() {
 
-        private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-
-        private lateinit var adapter: com.calleja.jesus.moneymanager.adapters.PagerAdapter
         private var prevBottomSelected: MenuItem? = null
 
         override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +25,7 @@ class MainActivity : ToolbarActivity() {
         }
 
         private fun getPagerAdapter(): PagerAdapter {
-            adapter = com.calleja.jesus.moneymanager.adapters.PagerAdapter(supportFragmentManager)
+            val adapter = com.calleja.jesus.moneymanager.adapters.PagerAdapter(supportFragmentManager)
             adapter.addFragment(InfoFragment())
             adapter.addFragment(RatesFragment())
             return adapter
