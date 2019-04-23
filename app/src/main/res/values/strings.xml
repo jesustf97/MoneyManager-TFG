@@ -21,5 +21,10 @@
     <string name="navigation_bottom_info">Info</string>
     <string name="navigation_bottom_rates">Rates</string>
 
+    //InfoFragment
+    <string name="info_no_name">Name is not available</string>
+
+    //Log out
+    <string name="options_menu_log_out">Log out</string>
 
 </resources>

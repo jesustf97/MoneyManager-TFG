@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".fragments.InfoFragment">
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragments.InfoFragment">
+
 
     <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Fragment info"/>
-
-</FrameLayout>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewInfoEmail" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp" app:layout_constraintTop_toTopOf="parent"
+            android:textAppearance="@style/TextAppearance.Compat.Notification.Title.Media"/>
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewInfoName" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/textViewInfoEmail"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+    <ImageView
+            android:src="@drawable/button_ripple_background"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:id="@+id/imageViewInfoAvatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="32dp" app:layout_constraintTop_toBottomOf="@+id/textViewInfoName"/>
+</android.support.constraint.ConstraintLayout>
