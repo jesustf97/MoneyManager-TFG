@@ -16,5 +16,8 @@ class RatesFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_rates, container, false)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
 
 }
