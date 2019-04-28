@@ -96,6 +96,9 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             if (task.isSuccessful) {
                 if (mAuth.currentUser!!.isEmailVerified) {
                     Toast.makeText(this, "El usuario ha iniciado sesión", Toast.LENGTH_SHORT).show()
+                    goToActivity<MainActivity>() {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
                 } else {
                     Toast.makeText(this, "El usuario aún no ha verificado su email", Toast.LENGTH_SHORT).show()
                 }

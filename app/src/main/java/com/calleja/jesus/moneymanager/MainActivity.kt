@@ -37,7 +37,7 @@ class MainActivity : ToolbarActivity() {
 
     private fun setUpViewPager(adapter: PagerAdapter) {
         viewPager.adapter = adapter
-        viewPager.offscreenPageLimit = 3 //Numero máximo de tabs en memoria
+        viewPager.offscreenPageLimit = adapter.count //Numero máximo de tabs en memoria
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(p0: Int) {}
             override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {}
