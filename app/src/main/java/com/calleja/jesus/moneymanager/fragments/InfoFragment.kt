@@ -20,8 +20,7 @@ class InfoFragment : Fragment() {
 
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var currentUser: FirebaseUser
-    //private val store: FirebaseFirestore = FirebaseFirestore.getInstance()
-    //private lateinit var chatDBRef: CollectionReference
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {

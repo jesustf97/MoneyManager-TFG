@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MoneyManager</string>
+    <string name="app_name">MoneyMentor</string>
 
 
     //login
@@ -19,12 +19,24 @@
 
     //NavigationBar
     <string name="navigation_bottom_info">Info</string>
-    <string name="navigation_bottom_rates">Rates</string>
+    <string name="navigation_bottom_rates">Valoraciones</string>
 
     //InfoFragment
-    <string name="info_no_name">Name is not available</string>
+    <string name="info_no_name">Nombre no disponible</string>
+
+    //RatesFragment
+    <string name="dialog_title">Valora la app</string>
+    <string name="dialog_edit_text_hint">Deja una valoración</string>
+    <string name="dialog_ok">Valorar</string>
+    <string name="dialog_cancel">Cancelar</string>
+
+
+
+
 
     //Log out
     <string name="options_menu_log_out">Log out</string>
+
+
 
 </resources>
