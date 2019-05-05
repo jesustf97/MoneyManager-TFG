@@ -29,9 +29,9 @@ class RateDialog : DialogFragment() {
         val view = activity!!.layoutInflater.inflate(R.layout.dialog_rate, null)
 
        return AlertDialog.Builder(context!!)
-            .setTitle( getString(R.string.dialog_title))
+            .setTitle( getString(R.string.dialog_rate_title))
             .setView(view)
-            .setPositiveButton(getString(R.string.dialog_ok)) { _, _ ->
+            .setPositiveButton(getString(R.string.dialog_rate_ok)) { _, _ ->
                 activity!!.toast("Se ha pulsado Ok")
                 val textRate = view.editTextRateFeedback.text.toString()
                 if (textRate.isNotEmpty()) {
