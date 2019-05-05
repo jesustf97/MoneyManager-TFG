@@ -55,8 +55,6 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-
-
     private fun createUserWithEmail(email: String, password: String) {
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->

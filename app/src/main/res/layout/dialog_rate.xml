@@ -28,7 +28,7 @@
                         android:id="@+id/editTextRateFeedback"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/dialog_edit_text_hint"
+                        android:hint="@string/dialog_rate_edit_text_hint"
                         android:maxLength="100"
                         android:maxLines="4"
                         android:textColor="@color/colorTextBlack"/>

@@ -23,16 +23,15 @@
 
     //InfoFragment
     <string name="info_no_name">Nombre no disponible</string>
+    <string name="update_balance_button">Actualizar saldo</string>
 
-    //RatesFragment
-    <string name="dialog_title">Valora la app</string>
-    <string name="dialog_edit_text_hint">Deja una valoración</string>
-    <string name="dialog_ok">Valorar</string>
+    //Dialogs
+    <string name="dialog_balance_edit_text_hint">Introduzca su saldo</string>
+    <string name="dialog_rate_title">Valora la app</string>
+    <string name="dialog_rate_edit_text_hint">Deja una valoración</string>
+    <string name="dialog_rate_ok">Valorar</string>
+    <string name="dialog_ok">Aceptar</string>
     <string name="dialog_cancel">Cancelar</string>
-
-
-
-
 
     //Log out
     <string name="options_menu_log_out">Log out</string>

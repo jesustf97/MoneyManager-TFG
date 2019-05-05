@@ -9,6 +9,7 @@
     <color name="colorTextBlack">#222</color>
     <color name="colorIcon">#FFFFFF</color>
     <color name="colorDivider">#BDBDBD</color>
+    <color name="buttonColour">#a500ff45</color>
 
     <color name="colorGoogle">#DD4B39</color>
     <color name="colorGoogleExtra">#B92D21</color>
