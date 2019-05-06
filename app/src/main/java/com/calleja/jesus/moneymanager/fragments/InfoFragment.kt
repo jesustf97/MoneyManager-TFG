@@ -18,8 +18,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_info.view.*
 import android.app.Activity
 import android.content.Intent
-import android.text.Editable
-import kotlinx.android.synthetic.main.dialog_balance.*
+import com.google.firebase.firestore.DocumentReference
 
 
 class InfoFragment : Fragment() {
@@ -29,6 +28,7 @@ class InfoFragment : Fragment() {
     private lateinit var currentUser: FirebaseUser
     private val store: FirebaseFirestore = FirebaseFirestore.getInstance()
     private lateinit var balanceDBRef: CollectionReference
+    private var balanceDocument: DocumentReference? = null
     private val REQ_CODE_SECOND_FRAGMENT = 90
     private val INTENT_KEY_SECOND_FRAGMENT_DATA = "INTENT_KEY_SECOND_FRAGMENT_DATA"
 
@@ -54,12 +54,14 @@ class InfoFragment : Fragment() {
 
     }
 
+    //private fun initializeBalancd
+
     private fun setUpCurrentUser() {
         currentUser = mAuth.currentUser!!
     }
 
     private fun setUpBalanceDB(){
-        balanceDBRef = store.collection("balance")
+        balanceDBRef = store.collection("balances")
     }
 
     private fun setUpButton(){
@@ -74,14 +76,27 @@ class InfoFragment : Fragment() {
         val newBalance = HashMap<String, Any>()
         newBalance["userBalance"] = userBalance
         newBalance["userId"] = currentUser.uid
-        balanceDBRef.add(newBalance)
-            .addOnCompleteListener {
-                activity!!.toast("Se ha actualizado el saldo correctamente")
-                _view.editTextTotalBalance.text = "$userBalance euros"
-            }
-            .addOnFailureListener {
-                activity!!.toast("Error al actualizar el saldo")
-            }
+        if (balanceDocument == null) {
+            balanceDBRef.add(newBalance)
+                .addOnCompleteListener {
+                    activity!!.toast("Se ha actualizado el saldo por primera vez")
+                    _view.editTextTotalBalance.text = "$userBalance euros"
+                    balanceDocument = it.result
+                }
+                .addOnFailureListener {
+                    activity!!.toast("Error al actualizar el saldo por primera vez")
+                }
+        }
+        else {
+            balanceDocument!!.update(newBalance)
+                .addOnCompleteListener {
+                    activity!!.toast("Se ha actualizado el saldo correctamente")
+                    _view.editTextTotalBalance.text = "$userBalance euros"
+                }
+                .addOnFailureListener {
+                    activity!!.toast("Error al actualizar el saldo")
+                }
+        }
 
     }
 

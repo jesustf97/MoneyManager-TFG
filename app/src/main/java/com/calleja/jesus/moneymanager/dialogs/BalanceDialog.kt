@@ -10,8 +10,6 @@ import kotlinx.android.synthetic.main.dialog_balance.view.*
 import android.app.Activity
 import android.content.Intent
 
-
-
 class BalanceDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
