@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.calleja.jesus.moneymanager.*
+import com.calleja.jesus.moneymanager.utils.IbanGenerator
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
 
@@ -13,10 +16,14 @@ import kotlinx.android.synthetic.main.activity_sign_up.*
 class SignUpActivity : AppCompatActivity() {
 
     private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance()}
+    private val store: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private lateinit var balanceDBRef: CollectionReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
+        setUpIbanDB()
 
 
         buttonGoBackLoginSignUp.setOnClickListener{
@@ -55,11 +62,30 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
+    private fun setUpIbanDB(){
+        balanceDBRef = store.collection("ibans")
+    }
+
+    private fun saveIban(userIban: String) {
+        val newIban = HashMap<String, String>()
+        newIban[mAuth.currentUser!!.uid] = userIban
+        balanceDBRef.document(mAuth.currentUser!!.uid).set(newIban)
+            .addOnSuccessListener {
+                toast("El iban se ha guardado correctamente")
+            }
+            .addOnFailureListener {
+               toast("Error al guardar el iban")
+            }
+    }
+
     private fun createUserWithEmail(email: String, password: String) {
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     mAuth.currentUser!!.sendEmailVerification().addOnCompleteListener(this) {
+                        val userIban = IbanGenerator.generateIban("ES", "IBAN")
+                        saveIban(userIban)
+                        toast("Su IBAN ES: $userIban")
                         Toast.makeText(this, "Se ha enviado email de confirmación",Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, LoginActivity::class.java))
                     }

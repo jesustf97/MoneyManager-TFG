@@ -10,6 +10,7 @@ import com.calleja.jesus.moneymanager.R
 import com.calleja.jesus.moneymanager.dialogs.BalanceDialog
 import com.calleja.jesus.moneymanager.toast
 import com.calleja.jesus.moneymanager.utils.CircleTransform
+import com.calleja.jesus.moneymanager.utils.IbanGenerator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
@@ -37,7 +38,7 @@ class InfoFragment : Fragment() {
         setUpCurrentUser()
         setUpCurrentUserInfoUI()
         setUpBalanceDB()
-        initializeBalance()
+        updateBalance()
         setUpEditBalanceButton()
         return _view
     }
@@ -54,20 +55,27 @@ class InfoFragment : Fragment() {
 
     }
 
-    private fun initializeBalance() {
+    private fun updateBalance() {
         if(!flagBalanceInitialized) {
             balanceDBRef.document(currentUser.uid).get().addOnSuccessListener {
-                try {
-                    var currentBalance = it.data!!.getValue(currentUser.uid).toString()
-                    _view.editTextTotalBalance.text = currentBalance
-                    flagBalanceInitialized = true
-                }
-                catch (e: NoSuchElementException) {
-                    _view.editTextTotalBalance.text = "0"
-                    flagBalanceInitialized = true
+                if(it.data != null) {
+                    try {
+                        var currentBalance = it.data!!.getValue(currentUser.uid).toString()
+                        _view.editTextTotalBalance.text = currentBalance
+                        flagBalanceInitialized = true
+                    } catch (e: NoSuchElementException) {
+                        initializeBalance()
+                    }
+                } else {
+                    initializeBalance()
                 }
             }
         }
+    }
+
+    private fun initializeBalance(){
+        _view.editTextTotalBalance.text = "0 EUR"
+        flagBalanceInitialized = true
     }
     private fun setUpCurrentUser() {
         currentUser = mAuth.currentUser!!
@@ -90,11 +98,10 @@ class InfoFragment : Fragment() {
         newBalance[currentUser.uid] = userBalance
                         balanceDBRef.document(currentUser.uid).set(newBalance)
                             .addOnSuccessListener {
-                                activity!!.toast("Se ha actualizado el saldo por primera vez")
-                                _view.editTextTotalBalance.text = "$userBalance euros"
+                                _view.editTextTotalBalance.text = "$userBalance EUR"
                             }
                             .addOnFailureListener {
-                                activity!!.toast("Error al actualizar el saldo por primera vez")
+                                activity!!.toast("Error al actualizar el saldo")
                             }
                 }
 

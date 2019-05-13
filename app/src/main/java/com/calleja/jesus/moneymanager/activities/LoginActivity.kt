@@ -84,10 +84,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             if(mGoogleApiClient.isConnected){
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient)
             }
-          /*  goToActivity<MainActivity> {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }*/
-            goToActivity<PaymentsScanner> {
+            goToActivity<MainActivity> {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
         }
@@ -99,7 +96,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             if (task.isSuccessful) {
                 if (mAuth.currentUser!!.isEmailVerified) {
                     //Toast.makeText(this, "El usuario ha iniciado sesión", Toast.LENGTH_SHORT).show()
-                    goToActivity<MainActivity>() {
+                    goToActivity<MainActivity> {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
                 } else {
