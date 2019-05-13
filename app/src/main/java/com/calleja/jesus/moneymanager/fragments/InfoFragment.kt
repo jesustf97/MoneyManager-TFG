@@ -18,17 +18,16 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_info.view.*
 import android.app.Activity
 import android.content.Intent
-import com.google.firebase.firestore.DocumentReference
 
 
 class InfoFragment : Fragment() {
 
     private lateinit var _view: View
+    private var flagBalanceInitialized = false
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var currentUser: FirebaseUser
     private val store: FirebaseFirestore = FirebaseFirestore.getInstance()
     private lateinit var balanceDBRef: CollectionReference
-    private var balanceDocument: DocumentReference? = null
     private val REQ_CODE_SECOND_FRAGMENT = 90
     private val INTENT_KEY_SECOND_FRAGMENT_DATA = "INTENT_KEY_SECOND_FRAGMENT_DATA"
 
@@ -38,7 +37,8 @@ class InfoFragment : Fragment() {
         setUpCurrentUser()
         setUpCurrentUserInfoUI()
         setUpBalanceDB()
-        setUpButton()
+        initializeBalance()
+        setUpEditBalanceButton()
         return _view
     }
 
@@ -54,8 +54,21 @@ class InfoFragment : Fragment() {
 
     }
 
-    //private fun initializeBalancd
-
+    private fun initializeBalance() {
+        if(!flagBalanceInitialized) {
+            balanceDBRef.document(currentUser.uid).get().addOnSuccessListener {
+                try {
+                    var currentBalance = it.data!!.getValue(currentUser.uid).toString()
+                    _view.editTextTotalBalance.text = currentBalance
+                    flagBalanceInitialized = true
+                }
+                catch (e: NoSuchElementException) {
+                    _view.editTextTotalBalance.text = "0"
+                    flagBalanceInitialized = true
+                }
+            }
+        }
+    }
     private fun setUpCurrentUser() {
         currentUser = mAuth.currentUser!!
     }
@@ -64,41 +77,26 @@ class InfoFragment : Fragment() {
         balanceDBRef = store.collection("balances")
     }
 
-    private fun setUpButton(){
-        _view.editBalanceButton.setOnClickListener{
-
+    private fun setUpEditBalanceButton() {
+        _view.editBalanceButton.setOnClickListener {
             val dialog = BalanceDialog()
             dialog.setTargetFragment(this, REQ_CODE_SECOND_FRAGMENT)
-            dialog.show(fragmentManager,"")}
+            dialog.show(fragmentManager, "")
+        }
     }
 
     private fun saveBalance(userBalance: String) {
-        val newBalance = HashMap<String, Any>()
-        newBalance["userBalance"] = userBalance
-        newBalance["userId"] = currentUser.uid
-        if (balanceDocument == null) {
-            balanceDBRef.add(newBalance)
-                .addOnCompleteListener {
-                    activity!!.toast("Se ha actualizado el saldo por primera vez")
-                    _view.editTextTotalBalance.text = "$userBalance euros"
-                    balanceDocument = it.result
+        val newBalance = HashMap<String, String>()
+        newBalance[currentUser.uid] = userBalance
+                        balanceDBRef.document(currentUser.uid).set(newBalance)
+                            .addOnSuccessListener {
+                                activity!!.toast("Se ha actualizado el saldo por primera vez")
+                                _view.editTextTotalBalance.text = "$userBalance euros"
+                            }
+                            .addOnFailureListener {
+                                activity!!.toast("Error al actualizar el saldo por primera vez")
+                            }
                 }
-                .addOnFailureListener {
-                    activity!!.toast("Error al actualizar el saldo por primera vez")
-                }
-        }
-        else {
-            balanceDocument!!.update(newBalance)
-                .addOnCompleteListener {
-                    activity!!.toast("Se ha actualizado el saldo correctamente")
-                    _view.editTextTotalBalance.text = "$userBalance euros"
-                }
-                .addOnFailureListener {
-                    activity!!.toast("Error al actualizar el saldo")
-                }
-        }
-
-    }
 
     private fun setUpCurrentUserInfoUI() {
         _view.textViewInfoEmail.text = currentUser.email
