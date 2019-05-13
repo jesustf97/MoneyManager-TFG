@@ -21,7 +21,7 @@ class BalanceDialog : DialogFragment() {
             .setTitle( getString(R.string.update_balance_button))
             .setView(view)
             .setPositiveButton(getString(R.string.dialog_ok)) { _, _ ->
-                activity!!.toast("Se ha pulsado Ok")
+             //   activity!!.toast("Se ha pulsado Ok")
                 val textBalance = view.editTextBalance.text.toString()
                 if (textBalance.isNotEmpty()) {
                     val intent = Intent()
@@ -31,7 +31,7 @@ class BalanceDialog : DialogFragment() {
                 }
             }
             .setNegativeButton( getString(R.string.dialog_cancel)) { _, _ ->
-                activity!!.toast("Se ha pulsado Cancelar")
+               // activity!!.toast("Se ha pulsado Cancelar")
             }
             .create()
     }

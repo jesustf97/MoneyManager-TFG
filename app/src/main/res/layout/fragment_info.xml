@@ -60,7 +60,6 @@
             app:layout_constraintTop_toBottomOf="@+id/textViewInfoName" android:layout_marginTop="32dp"
             app:layout_constraintVertical_bias="0.0"/>
     <TextView
-            android:text="0 euros"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/editTextTotalBalance"

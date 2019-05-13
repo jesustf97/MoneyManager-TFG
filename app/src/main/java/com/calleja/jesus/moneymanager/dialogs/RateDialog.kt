@@ -32,7 +32,6 @@ class RateDialog : DialogFragment() {
             .setTitle( getString(R.string.dialog_rate_title))
             .setView(view)
             .setPositiveButton(getString(R.string.dialog_rate_ok)) { _, _ ->
-                activity!!.toast("Se ha pulsado Ok")
                 val textRate = view.editTextRateFeedback.text.toString()
                 if (textRate.isNotEmpty()) {
                     val imageURL = currentUser.photoUrl?.toString() ?: run { "" }
@@ -41,7 +40,7 @@ class RateDialog : DialogFragment() {
                 }
             }
             .setNegativeButton( getString(R.string.dialog_cancel)) { _, _ ->
-                activity!!.toast("Se ha pulsado Cancelar")
+               // activity!!.toast("Se ha pulsado Cancelar")
             }
             .create()
     }
