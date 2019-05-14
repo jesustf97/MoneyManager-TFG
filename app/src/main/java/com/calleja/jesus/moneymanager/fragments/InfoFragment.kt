@@ -48,7 +48,6 @@ class InfoFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQ_CODE_SECOND_FRAGMENT) {
                 val secondFragmentData = intent!!.getStringExtra(INTENT_KEY_SECOND_FRAGMENT_DATA)
-                activity!!.toast("Su saldo actual es de: $secondFragmentData euros")
                 saveBalance(secondFragmentData)
             }
         }
@@ -61,7 +60,7 @@ class InfoFragment : Fragment() {
                 if(it.data != null) {
                     try {
                         var currentBalance = it.data!!.getValue(currentUser.uid).toString()
-                        _view.editTextTotalBalance.text = currentBalance
+                        _view.editTextTotalBalance.text = "$currentBalance EUR"
                         flagBalanceInitialized = true
                     } catch (e: NoSuchElementException) {
                         initializeBalance()

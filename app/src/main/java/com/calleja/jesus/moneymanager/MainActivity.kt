@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.calleja.jesus.moneymanager.activities.LoginActivity
 import com.calleja.jesus.moneymanager.fragments.InfoFragment
+import com.calleja.jesus.moneymanager.fragments.PaymentSpliterFragment
 import com.calleja.jesus.moneymanager.fragments.RatesFragment
 import com.calleja.jesus.mylibrary.interfaces.ToolbarActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -31,6 +32,7 @@ class MainActivity : ToolbarActivity() {
     private fun getPagerAdapter(): PagerAdapter {
         val adapter = com.calleja.jesus.moneymanager.adapters.PagerAdapter(supportFragmentManager)
         adapter.addFragment(InfoFragment())
+        adapter.addFragment(PaymentSpliterFragment())
         adapter.addFragment(RatesFragment())
         return adapter
     }
@@ -60,8 +62,12 @@ class MainActivity : ToolbarActivity() {
                     viewPager.currentItem = 0
                     true
                 }
-                R.id.bottom_nav_rates -> {
+                R.id.bottom_nav_splitPayment -> {
                     viewPager.currentItem = 1
+                    true
+                }
+                R.id.bottom_nav_rates -> {
+                    viewPager.currentItem = 2
                     true
                 }
                 else -> false

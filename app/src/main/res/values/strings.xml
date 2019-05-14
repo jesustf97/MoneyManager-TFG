@@ -20,6 +20,7 @@
     //NavigationBar
     <string name="navigation_bottom_info">Info</string>
     <string name="navigation_bottom_rates">Valoraciones</string>
+    <string name="navigation_bottom_splitPayment">Dividir pago</string>
 
     //InfoFragment
     <string name="info_no_name">Nombre no disponible</string>
@@ -36,5 +37,10 @@
     //Log out
     <string name="options_menu_log_out">Log out</string>
 
+    //PaySpliterFragment
+    <string name="perPersonStaticText">Importe por persona</string>
+    <string name="billStaticText">Importe total (€)</string>
+    <string name="tipStaticText">Propina</string>
+    <string name="numberOfPeopleStaticText">Número de personas</string>
 
 </resources>
