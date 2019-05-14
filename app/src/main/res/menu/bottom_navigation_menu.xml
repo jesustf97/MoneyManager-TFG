@@ -16,4 +16,11 @@
             android:title="@string/navigation_bottom_rates"
             app:showAsAction="ifRoom"/>
 
+    <item
+            android:id="@+id/bottom_nav_splitPayment"
+            android:enabled="true"
+            android:icon="@drawable/ic_split"
+            android:title="@string/navigation_bottom_splitPayment"
+            app:showAsAction="ifRoom"/>
+
 </menu>
