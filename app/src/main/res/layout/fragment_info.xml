@@ -10,22 +10,22 @@
 
     <TextView
             android:layout_width="0dp"
-            android:layout_height="16dp"
+            android:layout_height="wrap_content"
             android:id="@+id/textViewInfoEmail" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="16dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
-            android:textAppearance="@style/TextAppearance.Compat.Notification.Title.Media"
-            app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewInfoAvatar" android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/textViewInfoName"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewInfoAvatar" android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toTopOf="@+id/textViewInfoName"
+            app:layout_constraintVertical_chainStyle="spread_inside"/>
     <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/textViewInfoName" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/textViewInfoEmail" android:layout_marginBottom="32dp"
-            app:layout_constraintBottom_toTopOf="@+id/totalBalanceText"/>
+            app:layout_constraintTop_toBottomOf="@+id/textViewInfoEmail"/>
     <ImageView
             android:src="@drawable/button_ripple_background"
             android:layout_width="120dp"
@@ -35,6 +35,47 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" android:layout_marginEnd="8dp" android:layout_marginTop="32dp"
             app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  app:layout_constraintBottom_toTopOf="@+id/editBalanceButton"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  android:layout_marginBottom="32dp"
+                  app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="8dp"
+                  app:layout_constraintTop_toBottomOf="@+id/textViewInfoName" android:layout_marginStart="16dp"
+                  android:layout_marginEnd="16dp">
+
+        <LinearLayout android:layout_width="177dp"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
+            <TextView
+                    android:text="Saldo Total:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/totalBalanceText" android:textStyle="bold"
+                    android:textSize="18sp"/>
+            <TextView
+                    android:text="Número de cuenta:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/ibanText" android:textStyle="bold"
+                    android:textSize="18sp"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
+            <TextView
+                    android:text="userBalance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/userBalance" android:textSize="18sp"/>
+            <TextView
+                    android:text="userIban"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/userIban" android:textSize="18sp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
     <Button
             android:text="@string/update_balance_button"
             android:background="@color/colorGoogleExtra"
@@ -48,22 +89,5 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"/>
-    <TextView
-            android:text="Saldo total:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/totalBalanceText"
-            android:textSize="18sp" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/editTextTotalBalance" android:layout_marginEnd="8dp"
-            android:layout_marginBottom="208dp"
-            app:layout_constraintBottom_toTopOf="@+id/editBalanceButton" app:layout_constraintHorizontal_bias="0.082"
-            app:layout_constraintTop_toBottomOf="@+id/textViewInfoName" android:layout_marginTop="32dp"
-            app:layout_constraintVertical_bias="0.0"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextTotalBalance"
-            android:textSize="18sp"
-            android:layout_marginTop="32dp" app:layout_constraintTop_toBottomOf="@+id/textViewInfoName"
-            android:layout_marginEnd="16dp" app:layout_constraintEnd_toEndOf="parent"/>
+
 </android.support.constraint.ConstraintLayout>

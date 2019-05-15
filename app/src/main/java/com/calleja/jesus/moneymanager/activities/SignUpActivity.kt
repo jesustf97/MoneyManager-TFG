@@ -23,7 +23,6 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
-        setUpIbanDB()
 
 
         buttonGoBackLoginSignUp.setOnClickListener{
@@ -62,30 +61,12 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpIbanDB(){
-        balanceDBRef = store.collection("ibans")
-    }
-
-    private fun saveIban(userIban: String) {
-        val newIban = HashMap<String, String>()
-        newIban[mAuth.currentUser!!.uid] = userIban
-        balanceDBRef.document(mAuth.currentUser!!.uid).set(newIban)
-            .addOnSuccessListener {
-                toast("El iban se ha guardado correctamente")
-            }
-            .addOnFailureListener {
-               toast("Error al guardar el iban")
-            }
-    }
 
     private fun createUserWithEmail(email: String, password: String) {
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     mAuth.currentUser!!.sendEmailVerification().addOnCompleteListener(this) {
-                        val userIban = IbanGenerator.generateIban("ES", "IBAN")
-                        saveIban(userIban)
-                        toast("Su IBAN ES: $userIban")
                         Toast.makeText(this, "Se ha enviado email de confirmación",Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, LoginActivity::class.java))
                     }
