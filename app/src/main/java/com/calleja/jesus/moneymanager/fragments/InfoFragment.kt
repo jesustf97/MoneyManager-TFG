@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_info.view.*
 import android.app.Activity
 import android.content.Intent
+import com.google.firebase.firestore.SetOptions
 
 
 class InfoFragment : Fragment() {
@@ -57,7 +58,7 @@ class InfoFragment : Fragment() {
 
     }
     private fun linkIban() {
-        ibanDBRef.document(currentUser.uid).get().addOnSuccessListener {
+        ibanDBRef.document("ibanDocument").get().addOnSuccessListener {
             if(it.data != null) {
                 try {
                     var iban = it.data!!.getValue(currentUser.uid).toString()
@@ -129,13 +130,12 @@ class InfoFragment : Fragment() {
         activity!!.toast("Su IBAN ES: $userIban")
         val newIban = HashMap<String, String>()
         newIban[mAuth.currentUser!!.uid] = userIban
-        ibanDBRef.document(mAuth.currentUser!!.uid).set(newIban)
+        ibanDBRef.document("ibanDocument").set(newIban, SetOptions.merge())
             .addOnSuccessListener {
-                activity!!.toast("El iban se ha guardado correctamente")
                 _view.userIban.text = userIban
             }
             .addOnFailureListener {
-                activity!!.toast("Error al guardar el iban")
+              //  activity!!.toast("Error al guardar el iban")
             }
     }
 
