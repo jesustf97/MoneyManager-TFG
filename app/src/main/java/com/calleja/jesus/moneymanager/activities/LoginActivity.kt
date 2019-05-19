@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         setContentView(R.layout.activity_login)
 
 
-        buttonShowLicenses.setOnClickListener{
+        textViewShowLicenses.setOnClickListener{
             startActivity(Intent(this, ShowLicensesActivity::class.java))
         }
 

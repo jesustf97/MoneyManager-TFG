@@ -25,12 +25,12 @@ import com.google.firebase.firestore.SetOptions
 class InfoFragment : Fragment() {
 
     private lateinit var _view: View
-    private var flagBalanceInitialized = false
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var currentUser: FirebaseUser
     private val store: FirebaseFirestore = FirebaseFirestore.getInstance()
     private lateinit var balanceDBRef: CollectionReference
     private lateinit var ibanDBRef: CollectionReference
+    private lateinit var paymentDBRef: CollectionReference
     private val REQ_CODE_SECOND_FRAGMENT = 90
     private val INTENT_KEY_SECOND_FRAGMENT_DATA = "INTENT_KEY_SECOND_FRAGMENT_DATA"
 
@@ -41,7 +41,7 @@ class InfoFragment : Fragment() {
         setUpCurrentUserInfoUI()
         setUpBalanceDB()
         setUpIbanDB()
-        updateBalance()
+        setUpPaymentDB()
         linkIban()
         setUpEditBalanceButton()
         return _view
@@ -63,36 +63,58 @@ class InfoFragment : Fragment() {
                 try {
                     var iban = it.data!!.getValue(currentUser.uid).toString()
                     _view.userIban.text = iban
-                } catch (e: NoSuchElementException) {
+                } catch (e:NoSuchElementException) {
                     initializeIban()
                 }
             } else {
                 initializeIban()
             }
-        }
-    }
-    private fun updateBalance() {
-        if(!flagBalanceInitialized) {
-            balanceDBRef.document(currentUser.uid).get().addOnSuccessListener {
-                if(it.data != null) {
-                    try {
-                        var currentBalance = it.data!!.getValue(currentUser.uid).toString()
-                        _view.userBalance.text = "$currentBalance EUR"
-                        flagBalanceInitialized = true
-                    } catch (e: NoSuchElementException) {
-                        initializeBalance()
-                    }
-                } else {
-                    initializeBalance()
-                }
-            }
+        } .addOnCompleteListener {
+            updateBalance()
         }
     }
 
-    private fun initializeBalance(){
-        _view.userBalance.text = "0 EUR"
-        flagBalanceInitialized = true
+    private fun checkPayments() {}
+
+    private fun updateBalance() {
+        var increasedBalance = 0.0
+        paymentDBRef.document(_view.userIban.text.toString()).get().addOnSuccessListener {
+            if(it.data!=null){
+                var amount = it.data!!.getValue("amount").toString()
+                var senderName = it.data!!.getValue("senderName").toString()
+                var message = it.data!!.getValue("message").toString()
+                activity!!.toast("Ha recibido un pago de: $senderName con importe: $amount y concepto: $message")
+                increasedBalance = amount.toDouble()
+                paymentDBRef.document(_view.userIban.text.toString()).delete()
+            }
+        }
+            .addOnCompleteListener {
+
+                balanceDBRef.document(currentUser.uid).get().addOnSuccessListener {
+                    if (it.data != null) {
+                        try {
+                            var currentBalance = it.data!!.getValue(currentUser.uid).toString().toDouble()
+                            if(increasedBalance != 0.0) {
+                                currentBalance += increasedBalance
+                                saveBalance(currentBalance.toString())
+                            }
+                            if (currentBalance == 0.0) {
+                                _view.userBalance.text = "0 EUR"
+                            } else {
+                                _view.userBalance.text = "$currentBalance EUR"
+                            }
+                        } catch (e: NoSuchElementException) {
+                            _view.userBalance.text = "0 EUR"
+                            saveBalance("0")
+                        }
+                    } else {
+                        _view.userBalance.text = "0 EUR"
+                        saveBalance("0")
+                    }
+                }
+            }
     }
+
     private fun setUpCurrentUser() {
         currentUser = mAuth.currentUser!!
     }
@@ -103,6 +125,10 @@ class InfoFragment : Fragment() {
 
     private fun setUpIbanDB(){
         ibanDBRef = store.collection("ibans")
+    }
+
+    private fun setUpPaymentDB(){
+        paymentDBRef = store.collection("payments")
     }
 
     private fun setUpEditBalanceButton() {
@@ -118,21 +144,24 @@ class InfoFragment : Fragment() {
         newBalance[currentUser.uid] = userBalance
                         balanceDBRef.document(currentUser.uid).set(newBalance)
                             .addOnSuccessListener {
-                                _view.userBalance.text = "$userBalance EUR"
+                                activity!!.toast("Saldo actualizado correctamente")
                             }
                             .addOnFailureListener {
                                 activity!!.toast("Error al actualizar el saldo")
                             }
+                            .addOnCompleteListener {
+                                updateBalance()
+                            }
                 }
 
     private fun initializeIban() {
-        val userIban = IbanGenerator.generateIban("ES", "IBAN")
-        activity!!.toast("Su IBAN ES: $userIban")
-        val newIban = HashMap<String, String>()
-        newIban[mAuth.currentUser!!.uid] = userIban
-        ibanDBRef.document("ibanDocument").set(newIban, SetOptions.merge())
+        val newIban = IbanGenerator.generateIban("ES", "IBAN")
+        activity!!.toast("Su IBAN ES: $newIban")
+        val iban = HashMap<String, String>()
+        iban[mAuth.currentUser!!.uid] = newIban
+        ibanDBRef.document("ibanDocument").set(iban, SetOptions.merge())
             .addOnSuccessListener {
-                _view.userIban.text = userIban
+                _view.userIban.text = newIban
             }
             .addOnFailureListener {
               //  activity!!.toast("Error al guardar el iban")
@@ -151,9 +180,5 @@ class InfoFragment : Fragment() {
             Picasso.get().load(R.drawable.ic_person).resize(300,300)
                 .centerCrop().transform(CircleTransform()).into(_view.imageViewInfoAvatar)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 }

@@ -9,3 +9,4 @@ data class Rate(
     val createdAt: Date = Date(),
     val profileImgURL: String = ""
 )
+

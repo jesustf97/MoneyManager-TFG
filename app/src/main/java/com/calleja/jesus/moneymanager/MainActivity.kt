@@ -28,6 +28,7 @@ class MainActivity : ToolbarActivity() {
         toolbarToLoad(toolbarView as Toolbar)
         setUpViewPager(getPagerAdapter())
         setUpBottomNavigationBar()
+
     }
 
     private fun getPagerAdapter(): PagerAdapter {
@@ -55,6 +56,10 @@ class MainActivity : ToolbarActivity() {
                 }
                 bottomNavigation.menu.getItem(position).isChecked = true
                 prevBottomSelected = bottomNavigation.menu.getItem(position)
+                //Force update total balance after make a payment
+                if(position == 0) {
+                    viewPager.adapter = adapter
+                }
             }
         })
     }

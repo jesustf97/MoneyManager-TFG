@@ -87,7 +87,7 @@ class PaymentSpliterFragment : Fragment(), View.OnClickListener, TextWatcher {
         val totalExpense = ((HUNDRED_PERCENT + tipPercent) / HUNDRED_PERCENT) * totalBill
         val individualExpense = totalExpense / numberOfPeople
 
-        expensePerPersonTextView.text = String.format("$%.2f", individualExpense)
+        expensePerPersonTextView.text = String.format("€%.2f", individualExpense)
 
     }
 

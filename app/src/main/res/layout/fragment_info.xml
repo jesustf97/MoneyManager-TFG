@@ -65,11 +65,9 @@
                       android:layout_height="wrap_content"
                       android:orientation="vertical">
             <TextView
-                    android:text="userBalance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/userBalance" android:textSize="18sp"/>
             <TextView
-                    android:text="userIban"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/userIban" android:textSize="18sp"/>
         </LinearLayout>

@@ -15,7 +15,7 @@
     <string name="login_volver">Volver a Inicio de Sesión</string>
 
     //Mostrar licencias
-    <string name="showLicensesButton">Licencias</string>
+    <string name="showLicensesTextView">Licencias utilizadas</string>
 
     //NavigationBar
     <string name="navigation_bottom_info">Cuenta</string>
