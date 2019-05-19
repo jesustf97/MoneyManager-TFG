@@ -36,7 +36,7 @@
     <string name="dialog_cancel">Cancelar</string>
 
     //Log out
-    <string name="options_menu_log_out">Log out</string>
+    <string name="options_menu_log_out">Cerrar sesión</string>
 
     //PaySpliterFragment
     <string name="perPersonStaticText">Importe por persona</string>

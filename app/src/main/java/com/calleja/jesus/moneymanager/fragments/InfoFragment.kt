@@ -58,26 +58,30 @@ class InfoFragment : Fragment() {
 
     }
     private fun linkIban() {
+        var flagNotInitializedIban = false
         ibanDBRef.document("ibanDocument").get().addOnSuccessListener {
             if(it.data != null) {
                 try {
                     var iban = it.data!!.getValue(currentUser.uid).toString()
                     _view.userIban.text = iban
                 } catch (e:NoSuchElementException) {
-                    initializeIban()
+                    flagNotInitializedIban = true
                 }
             } else {
-                initializeIban()
+                flagNotInitializedIban = true
             }
         } .addOnCompleteListener {
-            updateBalance()
-        }
+            if(flagNotInitializedIban) {
+                initializeIban()
+            } else {
+                updateBalance()
+            }
     }
-
-    private fun checkPayments() {}
+    }
 
     private fun updateBalance() {
         var increasedBalance = 0.0
+       var test = _view.userIban.text
         paymentDBRef.document(_view.userIban.text.toString()).get().addOnSuccessListener {
             if(it.data!=null){
                 var amount = it.data!!.getValue("amount").toString()
@@ -165,6 +169,9 @@ class InfoFragment : Fragment() {
             }
             .addOnFailureListener {
               //  activity!!.toast("Error al guardar el iban")
+            }
+            .addOnCompleteListener {
+                updateBalance()
             }
     }
 
