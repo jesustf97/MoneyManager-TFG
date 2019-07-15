@@ -1,7 +1,5 @@
 package com.calleja.jesus.moneymanager.fragments
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -12,12 +10,9 @@ import com.calleja.jesus.moneymanager.R
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View.inflate
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
-import com.calleja.jesus.moneymanager.R.id.container
-import com.calleja.jesus.moneymanager.R.id.expensePerPersonTextView
 import kotlinx.android.synthetic.main.fragment_payment_spliter.view.*
 
 const val HUNDRED_PERCENT = 100.00

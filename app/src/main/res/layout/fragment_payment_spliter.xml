@@ -20,7 +20,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="30dp"
                 style="@style/h1Bold"
-                android:textColor="@color/colorAccent"
+                android:background="@color/colorPrimaryText"
+                android:textColor="@color/colorAccentDark"
                 android:text="0"/>
 
         <TextView
@@ -28,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="25dp"
                 style="@style/h2"
+                android:background="@color/colorPrimaryText"
                 android:textColor="@color/colorAccent"
                 android:text="@string/perPersonStaticText"/>
 

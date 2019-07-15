@@ -21,7 +21,7 @@
                 android:id="@+id/editTextEmailLogin"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/login_edit_text_height"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="80dp"
                 android:layout_marginEnd="32dp"
                 android:paddingLeft="@dimen/login_edit_text_space"
                 android:paddingRight="@dimen/login_edit_text_space"
@@ -67,7 +67,7 @@
         <TextView
                 android:id="@+id/textViewForgotPassword"
                 android:layout_width="wrap_content"
-                android:layout_height="15dp"
+                android:layout_height="18dp"
                 android:text="@string/login_olvido_pass"
                 android:textColor="@color/colorSecondaryText"
                 android:layout_marginTop="170dp"
@@ -75,12 +75,14 @@
                 android:layout_marginStart="48dp"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginEnd="48dp"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/textViewShowLicenses"/>
         <Button
                 android:id="@+id/buttonLoginGoogle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/login_button_height"
                 android:text="@string/login_inicio_google"
+                android:textSize="18dp"
                 android:textColor="@color/colorPrimaryText"
                 android:background="@drawable/button_ripple_google"
                 android:layout_marginTop="24dp"
@@ -119,7 +121,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginEnd="48dp"
                 app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="16dp"
-                android:layout_marginBottom="48dp" app:layout_constraintBottom_toBottomOf="parent"/>
+                android:layout_marginBottom="60dp" app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     </android.support.constraint.ConstraintLayout>
