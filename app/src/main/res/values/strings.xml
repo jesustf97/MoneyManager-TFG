@@ -1,15 +1,15 @@
 <resources>
-    <string name="app_name">MoneyMentor</string>
+    <string name="app_name">Money Mentor</string>
 
 
     //login
     <string name="login_correo">Correo electrónico</string>
     <string name="login_pass">Contraseña</string>
     <string name="login_confirmar_pass">Confirmar Contraseña</string>
-    <string name="login_inicio">Iniciar Sesión</string>
+    <string name="login_inicio">Iniciar Sesión Administrador</string>
     <string name="login_registro">Registrarse</string>
     <string name="login_restablecer_pass">Restablecer contraseña</string>
-    <string name="login_inicio_google">Iniciar Sesión con Google</string>
+    <string name="login_inicio_google">Iniciar Sesión Particular</string>
     <string name="login_olvido_pass">He olvidado mi contraseña</string>
     <string name="login_crear_cuenta">Crear Cuenta</string>
     <string name="login_volver">Volver a Inicio de Sesión</string>
@@ -26,8 +26,15 @@
     //InfoFragment
     <string name="info_no_name">Nombre no disponible</string>
     <string name="update_balance_button">Actualizar saldo</string>
+    <string name="scan_qr">Escanear QR</string>
+
+    //ExpensesRegistryFragment
+    <string name="add_expense_button">Registrar gasto</string>
 
     //Dialogs
+    <string name="dialog_expenses_amount_edit_text_hint">Importe</string>
+    <string name="dialog_expenses_message_edit_text_hint">Concepto</string>
+    <string name="dialog_expenses_category_edit_text_hint">Categoría</string>
     <string name="dialog_balance_edit_text_hint">Introduzca su saldo</string>
     <string name="dialog_rate_title">Valora la app</string>
     <string name="dialog_rate_edit_text_hint">Deja una valoración</string>

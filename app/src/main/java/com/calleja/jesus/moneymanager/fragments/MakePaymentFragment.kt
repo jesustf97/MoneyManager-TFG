@@ -1,16 +1,19 @@
 package com.calleja.jesus.moneymanager.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.text.Editable
+import android.view.*
 import com.calleja.jesus.moneymanager.R
+import com.calleja.jesus.moneymanager.activities.LoginActivity
+import com.calleja.jesus.moneymanager.goToActivity
 import com.calleja.jesus.moneymanager.toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.fragment_make_payment.view.*
 
 class MakePaymentFragment : Fragment() {
@@ -22,6 +25,10 @@ class MakePaymentFragment : Fragment() {
     private lateinit var balanceDBRef: CollectionReference
     private lateinit var paymentDBRef: CollectionReference
     private val store: FirebaseFirestore = FirebaseFirestore.getInstance()
+    companion object {
+        const val QR_FORMAT_SIZE = 4
+    }
+
 
 
     override fun onCreateView(
@@ -29,12 +36,38 @@ class MakePaymentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _view = inflater.inflate(R.layout.fragment_make_payment, container, false)
+        setHasOptionsMenu(true)
         setUpPaymentButton()
         setUpCurrentUser()
         setUpIbanDB()
         setUpBalanceDB()
         setUpPaymentDB()
         return _view
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.general_options_menu_payments, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_log_out -> {
+                FirebaseAuth.getInstance().signOut()
+                activity!!.goToActivity<LoginActivity>{
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+            }
+            R.id.qr_scan_button -> {
+                val scanner = IntentIntegrator.forSupportFragment(this)
+                scanner.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+                scanner.setOrientationLocked(false)
+                scanner.setBeepEnabled(true)
+                scanner.initiateScan()
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setUpPaymentButton() {
@@ -118,7 +151,6 @@ class MakePaymentFragment : Fragment() {
         var senderName = mAuth.currentUser!!.displayName
         var amount = _view.editTextAmount.text.toString()
         var message =_view.editTextConcept.text.toString()
-       // var paymentNotification = PaymentNotification(senderName, amount, message)
         val paymentNotification = HashMap<String, String?>()
         paymentNotification.put("senderName", senderName)
         paymentNotification.put("amount", amount)
@@ -182,4 +214,29 @@ class MakePaymentFragment : Fragment() {
         paymentDBRef = store.collection("payments")
     }
 
+    private fun extractPaymentInformation(data: List<String>){
+        if(data.size == QR_FORMAT_SIZE){
+            _view.editTextBeneficiaryName.setText(data[0])
+            _view.editTextAccountNumber.setText(data[1])
+            _view.editTextAmount.setText(data[2])
+            _view.editTextConcept.setText(data[3])
+
+        }else{
+            activity!!.toast("Formato código QR inválido")
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(requestCode == IntentIntegrator.REQUEST_CODE) {
+            val scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+            if(scanResult != null){
+                if(scanResult.contents == null) {
+                    activity!!.toast("Escaneo cancelado")
+                } else {
+                    val data = scanResult.contents.split("\n") as ArrayList<String>
+                    extractPaymentInformation(data)
+                }
+            }
+        }
+    }
 }

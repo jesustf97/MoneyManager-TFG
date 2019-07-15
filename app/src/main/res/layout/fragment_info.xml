@@ -58,24 +58,36 @@
             <TextView
                     android:text="Número de cuenta:"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/ibanText" android:textStyle="bold"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ibanText"
+                    android:textStyle="bold"
+                    android:textSize="18sp"/>
+            <TextView
+                    android:text="Gastos registrados: "
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/expenseText"
+                    android:textStyle="bold"
                     android:textSize="18sp"/>
         </LinearLayout>
         <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical">
+                                     android:layout_height="wrap_content"
+                                     android:orientation="vertical">
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/userBalance" android:textSize="18sp"/><TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/userIban" android:textSize="18sp"/>
             <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/userBalance" android:textSize="18sp"/>
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/userIban" android:textSize="18sp"/>
-        </LinearLayout>
+                    android:layout_height="wrap_content" android:id="@+id/userExpenses" android:textSize="18sp"/>
+</LinearLayout>
 
-    </LinearLayout>
+</LinearLayout>
+
 
     <Button
-            android:text="@string/update_balance_button"
+            android:text="@string/add_expense_button"
             android:background="@color/colorGoogleExtra"
             android:layout_width="204dp"
             android:layout_height="wrap_content"

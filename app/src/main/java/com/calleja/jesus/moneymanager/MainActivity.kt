@@ -14,12 +14,14 @@ import com.calleja.jesus.moneymanager.fragments.PaymentSpliterFragment
 import com.calleja.jesus.moneymanager.fragments.RatesFragment
 import com.calleja.jesus.mylibrary.interfaces.ToolbarActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : ToolbarActivity() {
 
     private var prevBottomSelected: MenuItem? = null
+    private lateinit var menu: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +39,6 @@ class MainActivity : ToolbarActivity() {
         adapter.addFragment(RatesFragment())
         adapter.addFragment(PaymentSpliterFragment())
         adapter.addFragment(MakePaymentFragment())
-
-
         return adapter
     }
 
@@ -71,16 +71,16 @@ class MainActivity : ToolbarActivity() {
                     viewPager.currentItem = 0
                     true
                 }
-                R.id.bottom_nav_payment -> {
-                    viewPager.currentItem = 3
+                R.id.bottom_nav_rates -> {
+                    viewPager.currentItem = 1
                     true
                 }
                 R.id.bottom_nav_splitPayment -> {
                     viewPager.currentItem = 2
                     true
                 }
-                R.id.bottom_nav_rates -> {
-                    viewPager.currentItem = 1
+                R.id.bottom_nav_payment -> {
+                    viewPager.currentItem = 3
                     true
                 }
                 else -> false
@@ -89,6 +89,7 @@ class MainActivity : ToolbarActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        this.menu = menu
         menuInflater.inflate(R.menu.general_options_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
@@ -101,10 +102,17 @@ class MainActivity : ToolbarActivity() {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
             }
+            R.id.qr_scan_button -> {
+                val scanner = IntentIntegrator(this)
+                scanner.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+                scanner.setOrientationLocked(false)
+                scanner.setBeepEnabled(true)
+                scanner.initiateScan()
+            }
+
         }
         return super.onOptionsItemSelected(item)
+        }
     }
-
-}
 
 
