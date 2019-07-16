@@ -22,16 +22,17 @@
     <string name="navigation_bottom_rates">Valoraciones</string>
     <string name="navigation_bottom_splitPayment">Dividir pago</string>
     <string name="navigation_bottom_payment">Realizar pago</string>
+    <string name="navigation_bottom_expenses">Gastos</string>
 
     //InfoFragment
     <string name="info_no_name">Nombre no disponible</string>
     <string name="update_balance_button">Actualizar saldo</string>
     <string name="scan_qr">Escanear QR</string>
-
-    //ExpensesRegistryFragment
     <string name="add_expense_button">Registrar gasto</string>
 
     //Dialogs
+    <string name="dialog_create_group_title">Introduzca el número de cuenta de los integrantes del grupo</string>
+    <string name="dialog_create_group_edit_text_hint">Número de cuenta de participante</string>
     <string name="dialog_expenses_amount_edit_text_hint">Importe</string>
     <string name="dialog_expenses_message_edit_text_hint">Concepto</string>
     <string name="dialog_expenses_category_edit_text_hint">Categoría</string>
@@ -50,6 +51,13 @@
     <string name="billStaticText">Importe total (€)</string>
     <string name="tipStaticText">Propina</string>
     <string name="numberOfPeopleStaticText">Número de personas</string>
+
+    //Admin
+    <string name="adminUser">Usuario administrador</string>
+    <string name="create_group">Crear grupo</string>
+    <string name="send_payment">Enviar pago a grupo</string>
+    <string name="send_payment_to_group_edit_text_hint">Introduzca el importe</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

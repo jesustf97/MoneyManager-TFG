@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_info.view.*
 import android.app.Activity
 import android.content.Intent
 import android.view.*
+import android.widget.Toast
 import com.calleja.jesus.moneymanager.models.Expense
 import com.google.firebase.firestore.SetOptions
 
@@ -119,7 +120,7 @@ class InfoFragment : Fragment(){
                 var amount = it.data!!.getValue("amount").toString()
                 var senderName = it.data!!.getValue("senderName").toString()
                 var message = it.data!!.getValue("message").toString()
-                activity!!.toast("Ha recibido un pago de: $senderName con importe: $amount y concepto: $message")
+                Toast.makeText(context, "Ha recibido un pago de: $senderName con importe: $amount y concepto: $message", Toast.LENGTH_LONG)
                 increasedBalance = amount.toDouble()
                 paymentDBRef.document(_view.userIban.text.toString()).delete()
             }
@@ -203,7 +204,7 @@ class InfoFragment : Fragment(){
     private fun saveBalance(userBalance: String) {
         val newBalance = HashMap<String, String>()
         newBalance[_view.userIban.text.toString()] = userBalance
-                        balanceDBRef.document("balanceDocument").set(newBalance)
+                        balanceDBRef.document("balanceDocument").set(newBalance, SetOptions.merge())
                             .addOnSuccessListener {
                                 activity!!.toast("Saldo actualizado correctamente")
                             }
@@ -218,17 +219,17 @@ class InfoFragment : Fragment(){
     private fun increaseTotalExpenses() {
         val newTotalExpenses = HashMap<String, Int>()
         newTotalExpenses[_view.userIban.text.toString()] = _view.userExpenses.text.toString().toInt() + 1
-        totalExpensesDBRef.document("totalExpensesDocument").set(newTotalExpenses)
+        totalExpensesDBRef.document("totalExpensesDocument").set(newTotalExpenses, SetOptions.merge())
             .addOnCompleteListener {
                _view.userExpenses.text = (_view.userExpenses.text.toString().toInt() + 1).toString()
             }
     }
 
     private fun saveExpense(amount: String, message: String, category: String) {
-        val expense = Expense(amount, message, category)
+        val expense = Expense(currentUser.uid, amount, message, category)
         val newExpense = HashMap<String, Expense>()
         newExpense[_view.userIban.text.toString()] = expense
-        expenseDBRef.add(newExpense)
+        expenseDBRef.add(expense)
             .addOnSuccessListener {
                 activity!!.toast("Se ha registrado el gasto correctamente")
             }
@@ -237,7 +238,6 @@ class InfoFragment : Fragment(){
             }
             .addOnCompleteListener {
                 increaseTotalExpenses()
-                //updateBalance()
             }
     }
 

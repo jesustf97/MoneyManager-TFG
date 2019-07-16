@@ -13,7 +13,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.zxing.integration.android.IntentIntegrator
+import kotlinx.android.synthetic.main.fragment_info.*
+import kotlinx.android.synthetic.main.fragment_info.view.*
 import kotlinx.android.synthetic.main.fragment_make_payment.view.*
 
 class MakePaymentFragment : Fragment() {
@@ -83,66 +86,73 @@ class MakePaymentFragment : Fragment() {
             var amountValidated = false
             var currentBalance = 0.0
             var amount = 0.0
+            var userIban = ""
+
             //Validación de la cantidad
-            balanceDBRef.document(currentUser.uid).get().addOnSuccessListener {
-                if (it.data != null) {
-                    try {
-                        currentBalance = (it.data!!.getValue(currentUser.uid).toString().toDouble())
-                        amount = (_view.editTextAmount.text.toString().toDouble())
-                        activity!!.toast("El saldo actual es de: $currentBalance")
-                        activity!!.toast("La cantidad del pago es de: $amount")
-                        if (currentBalance >= amount) {
-                            amountValidated = true
-                        }
-                    } catch (e: NoSuchElementException) {
-                        activity!!.toast("No tiene suficiente saldo para realizar el pago")
-                    }
-                } else {
-                    activity!!.toast("No tiene suficiente saldo para realizar el pago")
-                }
+            ibanDBRef.document("ibanDocument").get().addOnSuccessListener {
+                userIban = it.data!!.getValue(currentUser.uid).toString()
+
             }
                 .addOnCompleteListener {
-                    if (amountValidated) {
-                        activity!!.toast("Cantidad valida correctamente")
-                        // Validación del IBAN del beneficiario
-                        var ibanValidated = false
-
-                        ibanDBRef.document("ibanDocument").get().addOnSuccessListener {
-                            if (it.data != null) {
-                                try {
-                                    // var iban = it.data!!.getValue(currentUser.uid).toString()
-                                    var ibanList = it.data!!.values
-                                    ibanList.forEach {
-                                        if (it.toString().equals(_view.editTextAccountNumber.text.toString())) {
-                                            ibanValidated = true
+                    balanceDBRef.document("balanceDocument").get().addOnSuccessListener {
+                        if (it.data != null) {
+                            try {
+                                currentBalance =
+                                    (it.data!!.getValue(userIban).toString().toDouble())
+                                amount = (_view.editTextAmount.text.toString().toDouble())
+                                activity!!.toast("El saldo actual es de: $currentBalance")
+                                activity!!.toast("La cantidad del pago es de: $amount")
+                                if (currentBalance >= amount) {
+                                    amountValidated = true
+                                }
+                            } catch (e: NoSuchElementException) {
+                                activity!!.toast("No tiene suficiente saldo para realizar el pago")
+                            }
+                        } else {
+                            activity!!.toast("No tiene suficiente saldo para realizar el pago")
+                        }
+                    }
+                        .addOnCompleteListener {
+                            if (amountValidated) {
+                                // Validación del IBAN del beneficiario
+                                var ibanValidated = false
+                                ibanDBRef.document("ibanDocument").get().addOnSuccessListener {
+                                    if (it.data != null) {
+                                        try {
+                                            // var iban = it.data!!.getValue(currentUser.uid).toString()
+                                            var ibanList = it.data!!.values
+                                            ibanList.forEach {
+                                                if (it.toString().equals(_view.editTextAccountNumber.text.toString())) {
+                                                    ibanValidated = true
+                                                }
+                                            }
+                                        } catch (e: NoSuchElementException) {
+                                            activity!!.toast("El número de cuenta no pertenece a ningún usuario de la aplicación")
                                         }
                                     }
-                                } catch (e: NoSuchElementException) {
-                                    activity!!.toast("El número de cuenta no pertenece a ningún usuario de la aplicación")
                                 }
+                                    .addOnCompleteListener {
+                                        if (ibanValidated) {
+                                            activity!!.toast("El IBAN es válido")
+                                            var decreasedBalance = (currentBalance - amount).toString()
+                                            //Decrease Sender Balance
+                                            decreaseSenderBalance(decreasedBalance, userIban)
+                                            sendPaymentNotification()
+                                            activity!!.toast("El saldo modificado es de: $decreasedBalance")
+
+                                        } else {
+                                            activity!!.toast("El número de cuenta no pertenece a ningún usuario de la aplicación")
+                                        }
+                                    }
+                            } else {
+                                activity!!.toast("No tiene suficiente saldo para realizar el pago")
                             }
                         }
-                            .addOnCompleteListener {
-                                if (ibanValidated) {
-                                    activity!!.toast("El IBAN es válido")
-                                    var decreasedBalance = (currentBalance - amount).toString()
-                                    //Decrease Sender Balance
-                                    decreaseSenderBalance(decreasedBalance)
-                                    sendPaymentNotification()
-                                    activity!!.toast("El saldo modificado es de: $decreasedBalance")
-
-                                } else {
-                                    activity!!.toast("El número de cuenta no pertenece a ningún usuario de la aplicación")
-                                }
-                            }
-                    } else {
-                        activity!!.toast("No tiene suficiente saldo para realizar el pago")
-                    }
                 }
         }
 
-        else {
-            activity!!.toast("Faltan campos por rellenar")
+            else {
+                activity!!.toast("Faltan campos por rellenar")
 
         }
     }
@@ -165,10 +175,10 @@ class MakePaymentFragment : Fragment() {
             }
     }
 
-    private fun decreaseSenderBalance(decreasedBalance: String) {
+    private fun decreaseSenderBalance(decreasedBalance: String, iban: String) {
         val newBalance = HashMap<String, String>()
-        newBalance[currentUser.uid] = decreasedBalance
-        balanceDBRef.document(currentUser.uid).set(newBalance)
+        newBalance[iban] = decreasedBalance
+        balanceDBRef.document("balanceDocument").set(newBalance, SetOptions.merge())
             .addOnSuccessListener {
                 activity!!.toast("El saldo total ha sido actualizado")
             }

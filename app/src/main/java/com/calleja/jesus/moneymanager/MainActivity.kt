@@ -8,10 +8,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import com.calleja.jesus.moneymanager.activities.LoginActivity
-import com.calleja.jesus.moneymanager.fragments.InfoFragment
-import com.calleja.jesus.moneymanager.fragments.MakePaymentFragment
-import com.calleja.jesus.moneymanager.fragments.PaymentSpliterFragment
-import com.calleja.jesus.moneymanager.fragments.RatesFragment
+import com.calleja.jesus.moneymanager.fragments.*
 import com.calleja.jesus.mylibrary.interfaces.ToolbarActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.zxing.integration.android.IntentIntegrator
@@ -36,6 +33,7 @@ class MainActivity : ToolbarActivity() {
     private fun getPagerAdapter(): PagerAdapter {
         val adapter = com.calleja.jesus.moneymanager.adapters.PagerAdapter(supportFragmentManager)
         adapter.addFragment(InfoFragment())
+        adapter.addFragment(ExpensesFragment())
         adapter.addFragment(RatesFragment())
         adapter.addFragment(PaymentSpliterFragment())
         adapter.addFragment(MakePaymentFragment())
@@ -68,19 +66,23 @@ class MainActivity : ToolbarActivity() {
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.bottom_nav_info -> {
-                    viewPager.currentItem = 0
-                    true
-                }
-                R.id.bottom_nav_rates -> {
+                viewPager.currentItem = 0
+                true
+            }
+                R.id.bottom_nav_expense -> {
                     viewPager.currentItem = 1
                     true
                 }
-                R.id.bottom_nav_splitPayment -> {
+                R.id.bottom_nav_rates -> {
                     viewPager.currentItem = 2
                     true
                 }
-                R.id.bottom_nav_payment -> {
+                R.id.bottom_nav_splitPayment -> {
                     viewPager.currentItem = 3
+                    true
+                }
+                R.id.bottom_nav_payment -> {
+                    viewPager.currentItem = 4
                     true
                 }
                 else -> false

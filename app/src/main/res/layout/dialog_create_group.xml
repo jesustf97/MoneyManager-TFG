@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <EditText
+            android:id="@+id/editTextCreateGroup1"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/dialog_create_group_edit_text_hint"
+            android:textColorHint="@color/colorTextBlack"
+            android:textSize="16dp"
+            android:textColor="@color/colorTextBlack"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+
+    <EditText
+            android:id="@+id/editTextCreateGroup2"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/dialog_create_group_edit_text_hint"
+            android:textColorHint="@color/colorTextBlack"
+            android:textSize="16dp"
+            android:textColor="@color/colorTextBlack"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/editTextCreateGroup3"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+
+    <EditText
+            android:id="@+id/editTextCreateGroup3"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/dialog_create_group_edit_text_hint"
+            android:textColorHint="@color/colorTextBlack"
+            android:textSize="16dp"
+            android:textColor="@color/colorTextBlack"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/editTextCreateGroup5"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"/>
+    <EditText
+            android:id="@+id/editTextCreateGroup4"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/dialog_create_group_edit_text_hint"
+            android:textColorHint="@color/colorTextBlack"
+            android:textSize="16dp"
+            android:textColor="@color/colorTextBlack"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/editTextCreateGroup1"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+    <EditText
+            android:id="@+id/editTextCreateGroup5"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/dialog_create_group_edit_text_hint"
+            android:textColorHint="@color/colorTextBlack"
+            android:textSize="16dp"
+            android:textColor="@color/colorTextBlack"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/editTextCreateGroup4"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+
+</android.support.constraint.ConstraintLayout>

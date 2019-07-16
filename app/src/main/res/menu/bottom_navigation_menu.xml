@@ -10,6 +10,13 @@
             app:showAsAction="ifRoom"/>
 
     <item
+            android:id="@+id/bottom_nav_expense"
+            android:enabled="true"
+            android:icon="@drawable/ic_expenses_nav"
+            android:title="@string/navigation_bottom_expenses"
+            app:showAsAction="ifRoom"/>
+
+    <item
             android:id="@+id/bottom_nav_payment"
             android:enabled="true"
             android:icon="@drawable/ic_payment"

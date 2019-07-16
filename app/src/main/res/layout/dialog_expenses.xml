@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
+            <EditText
                 android:id="@+id/editTextExpenseAmount"
                 android:inputType="numberDecimal"
                 android:layout_width="match_parent"
