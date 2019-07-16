@@ -68,7 +68,6 @@ class InfoFragment : Fragment(){
         }
     }
 
-
     private fun linkIban() {
         var flagNotInitializedIban = false
         ibanDBRef.document("ibanDocument").get().addOnSuccessListener {
@@ -126,7 +125,7 @@ class InfoFragment : Fragment(){
         }
             .addOnCompleteListener {
 
-                balanceDBRef.document(_view.userIban.text.toString()).get().addOnSuccessListener {
+                balanceDBRef.document("balanceDocument").get().addOnSuccessListener {
                     if (it.data != null) {
                         try {
                             var currentBalance = it.data!!.getValue(_view.userIban.text.toString())
@@ -203,7 +202,7 @@ class InfoFragment : Fragment(){
     private fun saveBalance(userBalance: String) {
         val newBalance = HashMap<String, String>()
         newBalance[_view.userIban.text.toString()] = userBalance
-                        balanceDBRef.document(_view.userIban.text.toString()).set(newBalance)
+                        balanceDBRef.document("balanceDocument").set(newBalance)
                             .addOnSuccessListener {
                                 activity!!.toast("Saldo actualizado correctamente")
                             }
