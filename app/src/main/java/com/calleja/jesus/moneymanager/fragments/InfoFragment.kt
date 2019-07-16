@@ -61,9 +61,10 @@ class InfoFragment : Fragment(){
                 var secondFragmentCategory = data!!.getStringExtra("INTENT_KEY_SECOND_FRAGMENT_DATA_CATEGORY")
                 if (!hasEnoughBalance(secondFragmentAmount)) {
                     activity!!.toast("No puede registrar un gasto superior al saldo disponible")
+                } else {
+                    decreaseBalance(secondFragmentAmount)
+                    saveExpense(secondFragmentAmount, secondFragmentMessage, secondFragmentCategory)
                 }
-                decreaseBalance(secondFragmentAmount)
-                saveExpense(secondFragmentAmount, secondFragmentMessage, secondFragmentCategory)
             }
         }
     }
