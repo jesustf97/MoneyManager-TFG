@@ -1,15 +1,10 @@
 package com.calleja.jesus.moneymanager
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.Toast
 import com.calleja.jesus.moneymanager.activities.LoginActivity
-import com.calleja.jesus.moneymanager.dialogs.GroupDialog
 import com.calleja.jesus.mylibrary.interfaces.ToolbarActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main_admin.*
@@ -55,11 +50,11 @@ class MainActivityAdmin : ToolbarActivity() {
         if (iban2.isNotEmpty()){
             groupIbans.add(iban2)
         }
-        if (iban2.isNotEmpty()){
+        if (iban3.isNotEmpty()){
             groupIbans.add(iban3)
         }
 
-        if (groupIbans.size != 0) {
+        if (groupIbans.size == 3) {
             val intent = Intent(this, GroupBalanceActivity::class.java)
             intent.putExtra("ibans", groupIbans)
             startActivity(intent)

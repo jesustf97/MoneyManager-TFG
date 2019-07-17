@@ -30,6 +30,7 @@ class ShowLicensesActivity : AppCompatActivity() {
             )
             licenses.add(Licenses.noContent("Fabric", "Google Inc.", "https://fabric.io/terms"))
 
+            licenses.add(Licenses.fromGitHubApacheV2("Firebase/Firebase-Android-Sdk"))
             licenses.add(Licenses.fromGitHubApacheV2("JakeWharton/ButterKnife"))
             licenses.add(Licenses.fromGitHubApacheV2("Hdodenhof/CircleImageView"))
             licenses.add(Licenses.fromGitHubApacheV2("Google/Dagger"))
@@ -48,19 +49,19 @@ class ShowLicensesActivity : AppCompatActivity() {
             licenses.add(Licenses.fromGitHubBSD("Bumptech/Glide"))
             licenses.add(Licenses.fromGitHubBSD("Facebook/Stetho"))
 
-            // This repository does not have license file
-            licenses.add(Licenses.fromGitHub("GabrieleMariotti/ChangelogLib", Licenses.LICENSE_APACHE_V2))
+            /*// This repository does not have license file
+            licenses.add(Licenses.fromGitHub("GabrieleMariotti/ChangelogLib", Licenses.LICENSE_APACHE_V2))*/
 
             // These 2 licenses have a different branch name
             licenses.add(Licenses.fromGitHubApacheV2("ReactiveX/RxAndroid", "2.x/" + Licenses.FILE_AUTO))
             licenses.add(Licenses.fromGitHubApacheV2("ReactiveX/RxJava", "2.x/" + Licenses.FILE_AUTO))
 
-            licenses.add(
+            /*licenses.add(
                 Licenses.noLink(
                     "Library without a link to the license, like Google Play Services",
                     "Author", "License name", "License content"
                 )
-            )
+            )*/
 
             linearLayoutManager = LinearLayoutManager(this)
             licenseListRecyclerView.layoutManager = linearLayoutManager

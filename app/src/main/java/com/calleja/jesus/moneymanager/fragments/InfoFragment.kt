@@ -120,7 +120,7 @@ class InfoFragment : Fragment(){
                 var amount = it.data!!.getValue("amount").toString()
                 var senderName = it.data!!.getValue("senderName").toString()
                 var message = it.data!!.getValue("message").toString()
-                Toast.makeText(context, "Ha recibido un pago de: $senderName con importe: $amount y concepto: $message", Toast.LENGTH_LONG)
+                activity!!.toast("Ha recibido un pago de: $senderName con importe: $amount y concepto: $message")
                 increasedBalance = amount.toDouble()
                 paymentDBRef.document(_view.userIban.text.toString()).delete()
             }
@@ -206,10 +206,10 @@ class InfoFragment : Fragment(){
         newBalance[_view.userIban.text.toString()] = userBalance
                         balanceDBRef.document("balanceDocument").set(newBalance, SetOptions.merge())
                             .addOnSuccessListener {
-                                activity!!.toast("Saldo actualizado correctamente")
+                               // activity!!.toast("Saldo actualizado correctamente")
                             }
                             .addOnFailureListener {
-                                activity!!.toast("Error al actualizar el saldo")
+                              //  activity!!.toast("Error al actualizar el saldo")
                             }
                             .addOnCompleteListener {
                                 updateBalance()

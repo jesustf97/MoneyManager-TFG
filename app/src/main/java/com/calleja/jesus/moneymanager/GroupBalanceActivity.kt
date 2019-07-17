@@ -21,6 +21,7 @@ class GroupBalanceActivity : AppCompatActivity() {
         setContentView(R.layout.activity_group_balance)
         setUpPaymentDB()
         setUpSendPaymentToGroupButton()
+        setSupportActionBar(toolbarAdmin)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -29,10 +30,10 @@ class GroupBalanceActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.menu_log_out -> {
                 FirebaseAuth.getInstance().signOut()
-                goToActivity<LoginActivity>{
+                goToActivity<LoginActivity> {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
             }
@@ -43,14 +44,8 @@ class GroupBalanceActivity : AppCompatActivity() {
 
     private fun setUpSendPaymentToGroupButton() {
         send_payment_group_button.setOnClickListener {
-            if(editTextPaymentGroup.text.toString().isNotEmpty()){
-                val ibans :ArrayList<String> = intent.extras!!.getSerializable("ibans") as ArrayList<String>
-                var i = 0
-                while(i<3){
-                    val ibanBeneficiary = ibans.get(i)
-                    sendPaymentNotification(ibanBeneficiary)
-                    i++
-                }
+            if (editTextPaymentGroup.text.toString().isNotEmpty()) {
+                pendingNotifications()
             } else {
                 toast("Introduzca la cantidad que desea enviar al grupo")
             }
@@ -58,12 +53,14 @@ class GroupBalanceActivity : AppCompatActivity() {
 
     }
 
-    private fun setUpPaymentDB(){
+    private fun setUpPaymentDB() {
         paymentDBRef = store.collection("payments")
     }
 
+    private fun pendingNotifications() {
+        val ibans: ArrayList<String> = intent.extras!!.getSerializable("ibans") as ArrayList<String>
+        val iterator = ibans.iterator()
 
-    private fun sendPaymentNotification(iban: String) {
         var senderName = "Usuario administrador"
         var amount = editTextPaymentGroup.text.toString()
         var message = "Transferencia a grupo"
@@ -71,12 +68,57 @@ class GroupBalanceActivity : AppCompatActivity() {
         paymentNotification.put("senderName", senderName)
         paymentNotification.put("amount", amount)
         paymentNotification.put("message", message)
-        paymentDBRef.document(iban).set(paymentNotification)
+
+        var ibanBeneficiary = iterator.next()
+
+
+        paymentDBRef.document(ibanBeneficiary).set(paymentNotification)
             .addOnSuccessListener {
                 toast("Se ha enviado el pago correctamente")
             }
             .addOnFailureListener {
                 toast("Error al enviar el pago")
             }
+            .addOnCompleteListener {
+
+                if(iterator.hasNext()){
+                    ibanBeneficiary = iterator.next()
+                    paymentDBRef.document(ibanBeneficiary).set(paymentNotification)
+                        .addOnSuccessListener {
+                            toast("Se ha enviado el pago correctamente")
+                        }
+                        .addOnFailureListener {
+                            toast("Error al enviar el pago")
+                        }
+                        .addOnCompleteListener {
+                            if(iterator.hasNext()) {
+                                ibanBeneficiary = iterator.next()
+                                paymentDBRef.document(ibanBeneficiary).set(paymentNotification)
+                                    .addOnSuccessListener {
+                                        //toast("Se ha enviado el pago correctamente")
+                                    }
+                                    .addOnFailureListener {
+                                        toast("Error al enviar el pago")
+                                    }
+                                    .addOnCompleteListener {
+                                        toast("Se ha enviado el pago a todos los miembros del grupo")
+                                        editTextPaymentGroup.setText("")
+                                    }
+                            } else {
+                                toast("Se ha enviado el pago a todos los miembros del grupo")
+                                editTextPaymentGroup.setText("")
+                            }
+                        }
+
+                } else {
+                    toast("Se ha enviado el pago a todos los miembros del grupo")
+                    editTextPaymentGroup.setText("")
+                }
+        }
+
     }
+
+
 }
+
+
