@@ -1,0 +1,2 @@
+# MoneyManager-TFG
+Money Mentor is a native Android app for expense control and banking service management. The objective of this project has been the development of an educational simulator that allows you to learn how to control your savings through functionalities such as instant transfers between users, save expenses, balance inquiry, split payments and post comments within the app to get feedback from users. The app is written with Kotlin and Java and uses Google Firebase authentication and storage services
