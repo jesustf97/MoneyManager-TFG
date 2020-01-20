@@ -82,7 +82,7 @@ class MakePaymentFragment : Fragment() {
 
     private fun makePayment() {
         if (validateFields()) {
-            activity!!.toast("Los campos estan completos")
+            //activity!!.toast("Los campos estan completos")
             var amountValidated = false
             var currentBalance = 0.0
             var amount = 0.0
@@ -100,8 +100,8 @@ class MakePaymentFragment : Fragment() {
                                 currentBalance =
                                     (it.data!!.getValue(userIban).toString().toDouble())
                                 amount = (_view.editTextAmount.text.toString().toDouble())
-                                activity!!.toast("El saldo actual es de: $currentBalance")
-                                activity!!.toast("La cantidad del pago es de: $amount")
+                               // activity!!.toast("El saldo actual es de: $currentBalance")
+                                // activity!!.toast("La cantidad del pago es de: $amount")
                                 if (currentBalance >= amount) {
                                     amountValidated = true
                                 }
@@ -133,12 +133,17 @@ class MakePaymentFragment : Fragment() {
                                 }
                                     .addOnCompleteListener {
                                         if (ibanValidated) {
-                                            activity!!.toast("El IBAN es válido")
+                                            //activity!!.toast("El IBAN es válido")
                                             var decreasedBalance = (currentBalance - amount).toString()
                                             //Decrease Sender Balance
                                             decreaseSenderBalance(decreasedBalance, userIban)
                                             sendPaymentNotification()
-                                            activity!!.toast("El saldo modificado es de: $decreasedBalance")
+                                           // activity!!.toast("El saldo modificado es de: $decreasedBalance")
+                                            _view.editTextBeneficiaryName.setText("")
+                                            _view.editTextAccountNumber.setText("")
+                                            _view.editTextAmount.setText("")
+                                            _view.editTextConcept.setText("")
+
 
                                         } else {
                                             activity!!.toast("El número de cuenta no pertenece a ningún usuario de la aplicación")
@@ -180,7 +185,7 @@ class MakePaymentFragment : Fragment() {
         newBalance[iban] = decreasedBalance
         balanceDBRef.document("balanceDocument").set(newBalance, SetOptions.merge())
             .addOnSuccessListener {
-                activity!!.toast("El saldo total ha sido actualizado")
+                //activity!!.toast("El saldo total ha sido actualizado")
             }
             .addOnFailureListener {
                 activity!!.toast("Error al actualizar el saldo total")
